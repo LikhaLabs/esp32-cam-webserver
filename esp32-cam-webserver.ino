@@ -622,6 +622,7 @@ void setup() {
     * Camera setup complete; initialise the rest of the hardware.
     */
 
+#ifndef LAMP_DISABLE
     // Initialise and set the lamp
     if (lampVal != -1) {
         ledcSetup(lampChannel, pwmfreq, pwmresolution);  // configure LED PWM channel
@@ -629,8 +630,11 @@ void setup() {
         else setLamp(lampVal);
         ledcAttachPin(LAMP_PIN, lampChannel);            // attach the GPIO pin to the channel
     } else {
+#endif
         Serial.println("No lamp, or lamp disabled in config");
+#ifndef LAMP_DISABLE
     }
+#endif
 
     // Having got this far; start Wifi and loop until we are connected or have started an AccessPoint
     while ((WiFi.status() != WL_CONNECTED) && !accesspoint)  {
